@@ -15,6 +15,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
+
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const errorResponse = {
       errors: {},
@@ -24,19 +25,11 @@ export class UserService {
       email: createUserDto.email,
     });
 
-    const userByUsername = await this.userRepository.findOneBy({
-      username: createUserDto.username,
-    });
-
     if (userByEmail) {
       errorResponse.errors['email'] = 'Email has been already taken';
     }
 
-    if (userByUsername) {
-      errorResponse.errors['username'] = 'Username has been already taken';
-    }
-
-    if (userByEmail || userByUsername) {
+    if (userByEmail) {
       throw new HttpException(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -58,7 +51,7 @@ export class UserService {
     return sign(
       {
         id: user.id,
-        username: user.username,
+        username: user.name,
         email: user.email,
       },
       process.env.JWT_SECRET,
@@ -84,7 +77,7 @@ export class UserService {
       where: {
         email: loginUserDto.email,
       },
-      select: ['id', 'username', 'email', 'bio', 'image', 'password'],
+      select: ['id', 'name', 'email', 'height', 'weight', 'password', 'role'],
     });
 
     if (!user) {

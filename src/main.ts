@@ -17,11 +17,11 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-      .setTitle('Nest-App')
-      .setDescription('The Nest-App API documentation')
-      .setVersion('1.0')
-      .addTag('nest-app')
-      .build();
+    .setTitle('Nest-App')
+    .setDescription('The Nest-App API documentation')
+    .setVersion('1.0')
+    .addTag('nest-app')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
