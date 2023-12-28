@@ -8,13 +8,14 @@ import { UserResponseInterface } from './types/userResponse.interface';
 import { LoginUserDto } from './dto/login.dto';
 import { compare } from 'bcrypt';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { Gender } from './types/gender.enum';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  ) { }
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const errorResponse = {
@@ -103,6 +104,26 @@ export class UserService {
     updateUserDto: UpdateUserDto,
   ): Promise<UserEntity> {
     const user = await this.findById(userId);
+
+    const areUserDataGiven = !!(updateUserDto.height && updateUserDto.weight);
+
+    const { gender } = user;
+
+    if (areUserDataGiven) {
+      switch (gender) {
+        case Gender.Male:
+          user.calories = 66 + Math.round(5 * updateUserDto.height) + Math.round(13.7 * updateUserDto.weight);
+          break;
+
+        case Gender.Female:
+          user.calories = 655 + Math.round(1.8 * updateUserDto.height) + Math.round(9.6 * updateUserDto.weight);
+          break;
+
+        default:
+          break;
+      }
+    }
+
     Object.assign(user, updateUserDto);
 
     return await this.userRepository.save(user);

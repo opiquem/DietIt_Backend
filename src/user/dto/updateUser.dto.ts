@@ -1,12 +1,17 @@
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
   readonly name: string;
 
   @IsEmail()
+  @IsOptional()
   readonly email: string;
 
-  readonly height: string;
+  @IsNotEmpty()
+  @IsNumber()
+  readonly height: number;
 
-  readonly weight: string;
+  @IsNotEmpty()
+  @IsNumber()
+  readonly weight: number;
 }

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
   UseGuards,
@@ -19,7 +20,7 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post('users')
   @UsePipes(new ValidationPipe())
@@ -45,14 +46,17 @@ export class UserController {
     return this.userService.buildUserResponse(user);
   }
 
-  @Put('user')
-  @UseGuards(AuthGuard)
+  @Put('user/:id')
+  // @UseGuards(AuthGuard)
+  @UsePipes(new ValidationPipe())
   async updateCurrentUser(
-    @User('id') currentUserId: number,
+    @Param() params: any,
     @Body('user') updateUserDto: UpdateUserDto,
   ): Promise<UserResponseInterface> {
+    const {id: userId} = params;
+
     const user = await this.userService.updateUser(
-      currentUserId,
+      userId,
       updateUserDto,
     );
 

@@ -1,5 +1,7 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { hash } from 'bcrypt';
+import { Gender } from './types/gender.enum';
+import { DietEntity } from '../diet/diet.entity';
 @Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
@@ -11,17 +13,26 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   height: number;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   weight: number;
+
+  @Column({ nullable: true, default: null })
+  calories: number;
+
+  @Column({ nullable: true, type: 'enum', enum: Gender, default: null })
+  gender: Gender;
 
   @Column({ select: false })
   password: string;
 
   @Column({ default: 0 })
   role: number;
+
+  @OneToMany(() => DietEntity, (diet) => diet.id, { eager: true, cascade: ['remove'] })
+  diets: DietEntity[]
 
   @BeforeInsert()
   async hashPassword() {
