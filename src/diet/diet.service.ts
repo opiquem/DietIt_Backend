@@ -4,6 +4,7 @@ import { DietEntity } from "./diet.entity";
 import { Repository } from "typeorm";
 import { CreateDietDto } from "./dto/createDiet.dto";
 import { UserEntity } from "src/user/user.entity";
+import { UpdateDietDto } from "./dto/updateDiet.dto";
 
 @Injectable()
 export class DietService {
@@ -25,5 +26,13 @@ export class DietService {
   async getDiet(id: number): Promise<DietEntity> {
 
     return this.dietRepository.findOneBy({id});
+  }
+
+  async updateDiet(id: number, updateDietDto: UpdateDietDto): Promise<DietEntity> {
+    const diet = await this.getDiet(id);
+
+    Object.assign(diet, updateDietDto);
+
+    return this.dietRepository.save(diet);
   }
 }
