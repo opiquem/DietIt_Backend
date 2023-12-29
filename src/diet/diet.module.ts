@@ -11,4 +11,4 @@ import { DietService } from './diet.service';
   providers: [DietService, AuthGuard],
   exports: [DietService],
 })
-export class UserModule { }
+export class DietModule { }

@@ -12,6 +12,6 @@ export class DietEntity {
   @Column({ nullable: true, default: null })
   calories: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.diets)
+  @ManyToOne(() => UserEntity, (user) => user.diets, {eager: true})
   user: UserEntity;
 }

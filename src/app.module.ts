@@ -6,6 +6,7 @@ import { dataSourceOptions } from '../db/data-source';
 import { UserModule } from './user/user.module';
 import { AuthMiddleware } from './user/middlewares/auth.middleware';
 import { ConfigModule } from '@nestjs/config';
+import { DietModule } from './diet/diet.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     TypeOrmCoreModule.forRoot(dataSourceOptions),
     UserModule,
+    DietModule
   ],
   controllers: [AppController],
   providers: [AppService],

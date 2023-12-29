@@ -31,7 +31,7 @@ export class UserEntity {
   @Column({ default: 0 })
   role: number;
 
-  @OneToMany(() => DietEntity, (diet) => diet.id, { eager: true, cascade: ['remove'] })
+  @OneToMany(() => DietEntity, (diet) => diet.id, { cascade: ['remove'] })
   diets: DietEntity[]
 
   @BeforeInsert()
