@@ -8,6 +8,7 @@ import { AuthMiddleware } from './user/middlewares/auth.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { DietModule } from './diet/diet.module';
 import { ProductModule } from './product/product.module';
+import { DietToProductModule } from './dietToProduct/dietToProduct.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductModule } from './product/product.module';
     UserModule,
     DietModule,
     ProductModule,
+    DietToProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

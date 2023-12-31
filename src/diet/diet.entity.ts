@@ -1,5 +1,6 @@
+import { DietToProductEntity } from '../dietToProduct/dietToProduct.entity';
 import { UserEntity } from '../user/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'diets' })
 export class DietEntity {
@@ -12,6 +13,9 @@ export class DietEntity {
   @Column({ nullable: true, default: null })
   calories: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.diets, {eager: true})
+  @ManyToOne(() => UserEntity, (user) => user.diets, { eager: true })
   user: UserEntity;
+
+  @OneToMany(() => DietToProductEntity, dietToProductEntity => dietToProductEntity.diet)
+  products: DietToProductEntity[];
 }

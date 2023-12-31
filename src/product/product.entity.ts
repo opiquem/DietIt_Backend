@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DietToProductEntity } from '../dietToProduct/dietToProduct.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'products' })
 export class ProductEntity {
@@ -10,4 +11,7 @@ export class ProductEntity {
 
   @Column({ nullable: true, default: null })
   caloriesPerGram: number;
+
+  @OneToMany(() => DietToProductEntity, dietToProductEntity => dietToProductEntity.product)
+  diets: DietToProductEntity[];
 }
