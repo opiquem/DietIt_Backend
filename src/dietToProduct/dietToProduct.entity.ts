@@ -6,8 +6,8 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 export class DietToProductEntity {
   @PrimaryGeneratedColumn()
   id: number;
-  
-  @Column({default: false})
+
+  @Column({ default: false })
   consumed: boolean;
 
   @Column()
@@ -16,7 +16,7 @@ export class DietToProductEntity {
   @ManyToOne(() => DietEntity, diet => diet.products)
   diet: DietEntity;
 
-  @ManyToOne(() => ProductEntity, product => product.diets)
+  @ManyToOne(() => ProductEntity, product => product.diets, { eager: true })
   product: ProductEntity;
 
 }

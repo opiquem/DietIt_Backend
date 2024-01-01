@@ -22,10 +22,13 @@ export class DietService {
 
     return this.dietRepository.save(newDiet);
   }
-  
+
   async getDiet(id: number): Promise<DietEntity> {
 
-    return this.dietRepository.findOneBy({id});
+    return this.dietRepository.findOne({
+      where: { id },
+      relations: ['products']
+    });
   }
 
   async updateDiet(id: number, updateDietDto: UpdateDietDto): Promise<DietEntity> {

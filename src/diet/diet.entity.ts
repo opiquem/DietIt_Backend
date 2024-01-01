@@ -10,10 +10,10 @@ export class DietEntity {
   @Column()
   name: string;
 
-  @Column({ nullable: true, default: null })
+  @Column({ nullable: true, default: 0 })
   calories: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.diets, { eager: true })
+  @ManyToOne(() => UserEntity, (user) => user.diets)
   user: UserEntity;
 
   @OneToMany(() => DietToProductEntity, dietToProductEntity => dietToProductEntity.diet)
