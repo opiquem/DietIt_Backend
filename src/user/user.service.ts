@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 import { UserResponseInterface } from './types/userResponse.interface';
 import { LoginUserDto } from './dto/login.dto';
@@ -127,5 +127,9 @@ export class UserService {
     Object.assign(user, updateUserDto);
 
     return await this.userRepository.save(user);
+  }
+
+  async deleteUser(userId): Promise<DeleteResult> {
+    return await this.userRepository.delete(userId);
   }
 }

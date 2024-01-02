@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -17,6 +18,8 @@ import { User } from './decorators/user.decorator';
 import { UserEntity } from './user.entity';
 import { AuthGuard } from './guards/auth.guard';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { AdminGuard } from './guards/admin.guard';
+import { DeleteResult } from 'typeorm';
 
 @Controller()
 export class UserController {
@@ -47,7 +50,7 @@ export class UserController {
   }
 
   @Put('user/:id')
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   async updateCurrentUser(
     @Param() params: any,
@@ -61,5 +64,19 @@ export class UserController {
     );
 
     return this.userService.buildUserResponse(user);
+  }
+
+  @Delete('user/:id')
+  @UseGuards(AuthGuard, AdminGuard)
+  async deleteUser(
+    @Param() params: any
+  ): Promise<DeleteResult> {
+    const {id: userId} = params;
+
+    const removedUser = await this.userService.deleteUser(
+      userId
+    );
+
+    return removedUser;
   }
 }
